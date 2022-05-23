@@ -1,0 +1,14 @@
+:root {
+    --bs-primary-rgb:26, 133, 193 ;
+    --bs-primary:#1A85C1 ;
+    --bs-secondary-rgb:196, 196, 196 ;
+    --bs-secondary: #C4C4C4;
+    --bs-body-bg-rgb:0, 131, 0;
+    --bs-body-bg:#008300 ;
+
+}
+
+body {
+    background-color: var(--bs-primary);
+}
+@import "~bootstrap/scss/bootstrap";
