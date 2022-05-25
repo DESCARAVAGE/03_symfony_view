@@ -13,19 +13,25 @@ class ProgramController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(ProgramRepository $programRepository): Response
     {
-        
+
         $programs = $programRepository->findAll();
         return $this->render('program/index.html.twig', [
             'programs' => $programs,
-         ]);
+        ]);
     }
-    
-    #[Route('/{id}', methods:['GET'], requirements:['id'=>'\d+'], name: 'show')]
+
+    #[Route('/{id}', methods: ['GET'], requirements: ['id' => '\d+'], name: 'show')]
     public function show(int $id, ProgramRepository $programRepository): Response
     {
         $program = $programRepository->findOneBy(['id' => $id]);
-        return $this->render('program/show.html.twig', [
-            'program' => $program,
-        ]);
+        if (!$program) {
+            throw $this->createNotFoundException(
+                'No program with id : ' . $id . ' found in program\'s table.'
+            );
+        } else {
+            return $this->render('program/show.html.twig', [
+                'program' => $program,
+            ]);
+        }
     }
 }
