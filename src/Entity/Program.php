@@ -31,6 +31,12 @@ class Program
     #[ORM\OneToMany(mappedBy: 'program_id', targetEntity: Season::class, orphanRemoval: true)]
     private $seasons;
 
+    #[ORM\Column(type: 'string', length: 100)]
+    private $country;
+
+    #[ORM\Column(type: 'integer')]
+    private $year;
+
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
@@ -115,6 +121,30 @@ class Program
                 $season->setProgramId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getYear(): ?int
+    {
+        return $this->year;
+    }
+
+    public function setYear(int $year): self
+    {
+        $this->year = $year;
 
         return $this;
     }
