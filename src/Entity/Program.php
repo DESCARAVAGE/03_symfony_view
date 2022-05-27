@@ -28,13 +28,13 @@ class Program
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
-    #[ORM\OneToMany(mappedBy: 'program_id', targetEntity: Season::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class, orphanRemoval: true)]
     private $seasons;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100,  nullable: true)]
     private $country;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer',  nullable: true)]
     private $year;
 
     public function __construct()
@@ -107,7 +107,7 @@ class Program
     {
         if (!$this->seasons->contains($season)) {
             $this->seasons[] = $season;
-            $season->setProgramId($this);
+            $season->setProgram($this);
         }
 
         return $this;
@@ -117,8 +117,8 @@ class Program
     {
         if ($this->seasons->removeElement($season)) {
             // set the owning side to null (unless already changed)
-            if ($season->getProgramId() === $this) {
-                $season->setProgramId(null);
+            if ($season->getProgram() === $this) {
+                $season->setProgram(null);
             }
         }
 
@@ -148,4 +148,5 @@ class Program
 
         return $this;
     }
+    
 }

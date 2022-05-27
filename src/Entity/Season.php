@@ -22,7 +22,7 @@ class Season
     #[ORM\Column(type: 'integer')]
     private $number;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer',  nullable: true)]
     private $year;
 
     #[ORM\Column(type: 'text')]
@@ -41,12 +41,12 @@ class Season
         return $this->id;
     }
 
-    public function getProgramId(): ?Program
+    public function getProgram(): ?Program
     {
         return $this->program;
     }
 
-    public function setProgramId(?Program $program): self
+    public function setProgram(?Program $program): self
     {
         $this->program = $program;
 

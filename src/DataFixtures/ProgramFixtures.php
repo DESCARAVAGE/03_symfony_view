@@ -14,7 +14,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         ['title' => 'MHA', 'synopsis' => 'Les aventures des heros', 'category' => 'Action'],
         ['title' => 'DBS', 'synopsis' => 'Des combats de saiyans', 'category' => 'Fantastique'],
         ['title' => 'Parasite', 'synopsis' => 'Des parasites qui vous rentre dedans', 'category' => 'Fantastique'],
-        ['title' => 'overlord', 'synopsis' => 'Les aventures de Ainz dans un RPG', 'category' => 'Aventure'],
+        ['title' => 'Overload', 'synopsis' => 'Les aventures de Ainz dans un RPG', 'category' => 'Aventure'],
     ];
 
     public function load(ObjectManager $manager)
@@ -24,6 +24,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setTitle($seriesName ['title']);
             $program->setSynopsis($seriesName['synopsis']);
             $program->setCategory($this->getReference('category_' . $seriesName['category']));
+            $this->addReference('program_' . $seriesName['title'], $program);
             $manager->persist($program);
         }
         $manager->flush();
