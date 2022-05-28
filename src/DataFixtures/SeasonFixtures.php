@@ -23,7 +23,7 @@ class SeasonFixtures extends Fixture implements DependentFixtureInterface
         $faker = Factory::create();
 
         foreach (self::SERIES_TITLE as $title) {
-            for ($i = 0; $i <= 5; $i++) {
+            for ($i = 1; $i <= 5; $i++) {
                 $season = new Season();
 
                 $season->setNumber($i);
