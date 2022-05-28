@@ -6,28 +6,37 @@ use App\Entity\Episode;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Faker\Factory;
 
 class EpisodeFixtures extends Fixture implements DependentFixtureInterface
 {
-    const EPISODES = [
-        ['title' => 'Episode 1', 'number' => 1, 'synopsis' => 'saison 1 épisode 1', 'season' => 'Naruto S1'],
-        ['title' => 'Episode 1', 'number' => 1, 'synopsis' => 'saison 1 épisode 1', 'season' => 'MHA S1'],
-        ['title' => 'Episode 1', 'number' => 1, 'synopsis' => 'saison 1 épisode 1', 'season' => 'DBS S1'],
-        ['title' => 'Episode 1', 'number' => 1, 'synopsis' => 'saison 1 épisode 1', 'season' => 'Parasite S1'],
-        ['title' => 'Episode 1', 'number' => 1, 'synopsis' => 'saison 1 épisode 1', 'season' => 'Overload S1'],
-        ['title' => 'Episode 2', 'number' => 2, 'synopsis' => 'saison 1 épisode 2', 'season' => 'Naruto S2'],
+    public const SERIES_TITLE = [
+        'Naruto',
+        'MHA',
+        'DBS',
+        'Parasite',
+        'Overload',
     ];
 
     public function load(ObjectManager $manager): void
     {
-        foreach (self::EPISODES as $episodeFixture) {
-            $episode = new Episode();
-            $episode->setTitle($episodeFixture['title']);
-            $episode->setNumber($episodeFixture['number']);
-            $episode->setSynopsis($episodeFixture['synopsis']);
-            $episode->setSeason($this->getReference($episodeFixture['season']));
-            $manager->persist($episode);
+        $faker = Factory::create();
+
+        for ($i = 0; $i < 5; $i++) {
+            for ($j = 1; $j <= 5; $j++) {
+                for ($k = 1; $k <= 20; $k++) {
+                $episode = new Episode();
+
+                $episode->setTitle($faker->sentence(4, true));
+                $episode->setNumber($k);
+                $episode->setSynopsis($faker->paragraph(3, true));
+
+                $episode->setSeason($this->getReference(self::SERIES_TITLE[$i] . ' S' . $j));
+
+                $manager->persist($episode);
+            }
         }
+    }
 
         $manager->flush();
     }
