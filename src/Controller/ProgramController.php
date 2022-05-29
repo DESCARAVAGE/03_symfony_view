@@ -1,6 +1,7 @@
 <?php
 // src/Controller/ProgramController.php
 namespace App\Controller;
+
 use App\Entity\Episode;
 use App\Entity\Season;
 use App\Entity\Program;
@@ -26,25 +27,37 @@ class ProgramController extends AbstractController
     public function show(Program $program): Response
     {
         $seasons = $program->getSeasons();
-        
+
         return $this->render('program/show.html.twig', [
             'program' => $program,
             'seasons' => $seasons,
         ]);
     }
 
-    #[Route('/{programId}/season/{seasonId}', methods: ['GET'], requirements: ['id' => '\d+'], name: 'season_show')]
-    #[Entity('program', options: ['id' => 'program_id'])]
-    #[Entity('season', options: ['id' => 'season_id'])]
+    #[Route('/{programId}/season/{seasonId}', methods: ['GET'], name: 'season_show')]
+    #[Entity('program', options: ['id' => 'programId'])]
+    #[Entity('season', options: ['id' => 'seasonId'])]
     public function showSeason(Program $program, Season $season): Response
     {
         $episodes = $season->getEpisodes();
-        
+
         return $this->render('program/season_show.html.twig', [
             'program' => $program,
             'season' => $season,
             'episodes' => $episodes,
         ]);
+    }
 
+    #[Route('/{programId}/season/{seasonId}/episode/{episodeId}', methods: ['GET'], name: 'episode_show')]
+    #[Entity('program', options: ['id' => 'programId'])]
+    #[Entity('season', options: ['id' => 'seasonId'])]
+    #[Entity('episode', options: ['id' => 'episodeId'])]
+    public function showEpisode(Program $program, Season $season, Episode $episode): Response
+    {
+        return $this->render('program/episode_show.html.twig', [
+            'program' => $program,
+            'season' => $season,
+            'episode' => $episode,
+        ]);
     }
 }
