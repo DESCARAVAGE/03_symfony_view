@@ -24,12 +24,15 @@ class Program
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $poster;
 
-    #[ORM\ManyToOne(targetEntity: Category::class)]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'programs')]
     #[ORM\JoinColumn(nullable: false)]
-    private $category;
+    private Category $category;
 
     #[ORM\OneToMany(mappedBy: 'program', targetEntity: Season::class, orphanRemoval: true)]
-    private $seasons;
+    private Collection $seasons;
+
+    #[ORM\OneToMany(mappedBy: 'program', targetEntity: Episode::class)]
+    private Collection $episodes;
 
     #[ORM\Column(type: 'string', length: 100,  nullable: true)]
     private $country;
@@ -40,6 +43,7 @@ class Program
     public function __construct()
     {
         $this->seasons = new ArrayCollection();
+        $this->episodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +123,32 @@ class Program
             // set the owning side to null (unless already changed)
             if ($season->getProgram() === $this) {
                 $season->setProgram(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEpisodes(): Collection
+    {
+        return $this->episodes;
+    }
+
+    public function addEpisode(Episode $episode): self
+    {
+        if (!$this->episodes->contains($episode)) {
+            $this->episodes[] = $episode;
+            $episode->setProgram($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEpisode(Episode $episode): self
+    {
+        if ($this->episodes->removeElement($episode)) {
+            if ($episode->getProgram() === $this) {
+                $episode->setProgram(null);
             }
         }
 
