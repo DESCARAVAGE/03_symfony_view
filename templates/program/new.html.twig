@@ -5,6 +5,7 @@
 		<h1 class="my-5">Nouvelle série</h1>
 		<div>
 			{{ form_start(formProgram) }}
+			{{ form_start(formProgram, {'attr': {'novalidate': 'novalidate'}}) }}
 			{{ form_row(formProgram.title, {'attr': {'label': 'Titre', 'placeholder': 'Titre de la nouvelle série'}}) }}
 			{{ form_row(formProgram.synopsis, {'attr': {'placeholder': 'Synopsis de la nouvelle série'}}) }}
 			{{ form_row(formProgram.poster, {'attr': {'placeholder': 'Affiche de la nouvelle série'}}) }}

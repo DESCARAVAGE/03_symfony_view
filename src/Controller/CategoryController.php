@@ -31,7 +31,7 @@ class CategoryController extends AbstractController
         $category = new Category();
         $formCategory = $this->createForm(CategoryType::class, $category);
         $formCategory->handleRequest($request);
-        if ($formCategory->isSubmitted()) {
+        if ($formCategory->isSubmitted() && $formCategory->isValid()) {
             $categoryRepository->add($category, true);  
             // Deal with the submitted data
             // For example : persiste & flush the entity

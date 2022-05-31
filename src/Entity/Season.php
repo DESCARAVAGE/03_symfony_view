@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SeasonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SeasonRepository::class)]
@@ -22,7 +23,8 @@ class Season
     #[ORM\Column(type: 'integer')]
     private $number;
 
-    #[ORM\Column(type: 'integer',  nullable: true)]
+    #[ORM\Column(type: 'integer')]
+    #[Assert\Regex('/[0-9]{4}/', message: 'L\'année doit contenir 4 chiffres')]
     private $year;
 
     #[ORM\Column(type: 'text')]
